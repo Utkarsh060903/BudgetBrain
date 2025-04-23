@@ -37,11 +37,62 @@ const Chatbot = () => {
     setIsLoading(true); 
 
     
+    // const userContext = {
+    //   name: user.fullName,
+    //   Income: dashboardData?.totalIncome,
+    //   Expense: dashboardData?.totalExpense,
+    //   Balance: dashboardData?.totalBalance
+    // };
+
+    // const userContext = {
+    //   name: user.fullName,
+    //   income: dashboardData?.totalIncome, 
+    //   balance: dashboardData?.totalBalance, // Change to lowercase 'income'
+    //   expense: dashboardData?.totalExpense,
+    // };
+
     const userContext = {
+      // Basic user information
       name: user.fullName,
-      Income: dashboardData?.totalIncome,
-      Expense: dashboardData?.totalExpense,
-      Balance: dashboardData?.totalBalance
+      
+      // Financial summaries
+      income: dashboardData?.totalIncome,
+      expense: dashboardData?.totalExpense,
+      balance: dashboardData?.totalBalance,
+      savingsRate: (dashboardData?.totalIncome - dashboardData?.totalExpense) / dashboardData?.totalIncome * 100,
+      
+      // Income details
+      incomeStreams: dashboardData?.last30DaysIncome?.transactions.map(t => ({
+        source: t.source,
+        amount: t.amount,
+        date: t.date
+      })),
+      incomeCategories: [...new Set(dashboardData?.last30DaysIncome?.transactions.map(t => t.source))],
+      
+      // Expense details
+      expenseCategories: [...new Set(dashboardData?.last30DaysExpenses?.transactions.map(t => t.category))],
+      categorizedExpenses: dashboardData?.last30DaysExpenses?.transactions.reduce((acc, t) => {
+        if (!acc[t.category]) acc[t.category] = 0;
+        acc[t.category] += t.amount;
+        return acc;
+      }, {}),
+      
+      // Time-based analytics
+      recentTransactions: dashboardData?.recentTransactions?.slice(0, 5),
+      monthlyTrends: {
+        income: dashboardData?.last60DaysIncome?.total / 2,
+        expense: dashboardData?.last60DaysExpenses?.total / 2
+      },
+      
+      // Derived insights
+      largestExpenseCategory: dashboardData?.last30DaysExpenses?.transactions.reduce(
+        (max, t) => t.amount > max.amount ? {category: t.category, amount: t.amount} : max, 
+        {category: '', amount: 0}
+      ).category,
+      largestIncomeSource: dashboardData?.last30DaysIncome?.transactions.reduce(
+        (max, t) => t.amount > max.amount ? {source: t.source, amount: t.amount} : max, 
+        {source: '', amount: 0}
+      ).source
     };
 
 
