@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { UserContext } from "@/context/userContext";
+import Chatbot from "../Chatbot";
 
 const DashboardLayout = ({children, activeMenu}) => {
   const { user } = useContext(UserContext);
@@ -18,6 +19,10 @@ const DashboardLayout = ({children, activeMenu}) => {
           <div className="grow mx-5">
             {children}
           </div>
+
+          <div className="fixed z-50 right-6 bottom-0">
+            <Chatbot />
+           </div>
         </div>
       )}
     </div>

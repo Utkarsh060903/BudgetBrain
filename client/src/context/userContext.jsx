@@ -6,6 +6,8 @@ export const UserContext = createContext();
 const UserProvider = ({ children }) => {  // Changed from userProvider to UserProvider
   const [user, setUser] = useState(null);
 
+  const [dashboardData, setDashboardData] = useState(null)
+
   const updateUser = (user) => {
     setUser(user);
   };
@@ -15,7 +17,7 @@ const UserProvider = ({ children }) => {  // Changed from userProvider to UserPr
   };
 
   return (
-    <UserContext.Provider value={{ user, updateUser, clearUser }}>
+    <UserContext.Provider value={{ user, updateUser, clearUser, dashboardData, setDashboardData }}>
       {children}
     </UserContext.Provider>
   );
