@@ -3,7 +3,7 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { useUserAuth } from "@/hooks/useUserAuth";
 import { API_PATHS } from "@/utils/apiPaths";
 import axiosInstance from "@/utils/axiosInstance";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addThousandsSeperator } from "@/utils/helper";
 import { MdCreditCard } from "react-icons/md";
@@ -14,13 +14,14 @@ import ExpenseTransactions from "@/components/Dashboard/ExpenseTransactions";
 import Last30DaysExpenses from "@/components/Dashboard/Last30DaysExpenses";
 import RecentIncomeWithChart from "@/components/Dashboard/RecentIncomeWithChart";
 import RecentIncome from "@/components/Dashboard/RecentIncome";
+import { UserContext } from "@/context/userContext";
 
 const Home = () => {
   useUserAuth();
 
   const navigate = useNavigate();
 
-  const [dashboardData, setDashboardData] = useState(null);
+  const {dashboardData, setDashboardData} = useContext(UserContext)
   const [loading, setLoading] = useState(false);
 
   const fetchDashboardData = async () => {
