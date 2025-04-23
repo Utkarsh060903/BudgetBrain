@@ -8,7 +8,6 @@ const generateToken = (id) => {
     expiresIn: "1h",
   });
 };
-
 export const registerUser = async (req, res) => {
   const { fullName, email, password, profileImageUrl } = req.body;
 
