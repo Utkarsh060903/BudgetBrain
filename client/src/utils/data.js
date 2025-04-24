@@ -1,43 +1,5 @@
-// import {
-//     LuLayoutDashboard,
-//     LuHandCoins,
-//     LuWalletMinimal,
-//     LuLogout
-// } from "react-icons/lu";
-
-// export const SIDE_MENU_DATA = [
-//     {
-//         id: "01",
-//         title: "Dashboard",
-//         icon: LuLayoutDashboard,
-//         path: "/dashboard",
-//     },
-
-//     {
-//         id: "02",
-//         title: "Income",
-//         icon: LuWalletMinimal,
-//         path: "/income",
-//     },
-
-//     {
-//         id: "03",
-//         title: "Expense",
-//         icon: LuHandCoins ,
-//         path: "/expense",
-//     },
-
-//     {
-//         id: "06",
-//         title: "Logout",
-//         icon: LuLogout,
-//         path: "logout",
-//     }
-// ]
-
 import { MdDashboard, MdAccountBalanceWallet, MdLogout } from "react-icons/md";
-import { FaMoneyBillWave } from "react-icons/fa"; // ✅ correct icon source
- // or use multiple libs
+import { FaMoneyBillWave, FaRocket, FaStopwatch } from "react-icons/fa";
   
   export const SIDE_MENU_DATA = [
     {
@@ -57,6 +19,18 @@ import { FaMoneyBillWave } from "react-icons/fa"; // ✅ correct icon source
       title: "Expense",
       icon: FaMoneyBillWave,
       path: "/expense",
+    },
+    {
+      id: "04",
+      title: "Goals",
+      icon: FaRocket,
+      path: "/goal",
+    },
+    {
+      id: "05",
+      title: "History",
+      icon: FaStopwatch,
+      path: "/history",
     },
     {
       id: "06",

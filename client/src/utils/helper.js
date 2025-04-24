@@ -102,3 +102,114 @@ export const prepareExpenseLineChartData = (data = []) => {
   console.log("Final chart data:", chartData);
   return chartData;
 }
+
+// utils/formatters.js
+
+/**
+ * Formats a number as currency with the specified locale and currency code
+ * @param {number|string} value - The numeric value to format
+ * @param {string} locale - The locale to use (default: 'en-US')
+ * @param {string} currencyCode - The currency code to use (default: 'USD')
+ * @returns {string} - Formatted currency string
+ */
+export const formatCurrency = (value, locale = 'en-US', currencyCode = 'USD') => {
+  // Handle null, undefined, or empty string
+  if (value === null || value === undefined || value === '') {
+    return '$0.00';
+  }
+
+  // Convert to number if it's a string
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+
+  // Check if it's a valid number
+  if (isNaN(numericValue)) {
+    return '$0.00';
+  }
+
+  try {
+    // Use Intl.NumberFormat for localized currency formatting
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: currencyCode,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(numericValue);
+  } catch (error) {
+    console.error('Error formatting currency:', error);
+    // Fallback formatting
+    return `$${numericValue.toFixed(2)}`;
+  }
+};
+
+/**
+ * Formats a percentage value
+ * @param {number|string} value - The numeric value to format as percentage
+ * @param {number} decimals - Number of decimal places (default: 0)
+ * @returns {string} - Formatted percentage string with % symbol
+ */
+export const formatPercentage = (value, decimals = 0) => {
+  if (value === null || value === undefined || value === '') {
+    return '0%';
+  }
+
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+  
+  if (isNaN(numericValue)) {
+    return '0%';
+  }
+
+  return `${numericValue.toFixed(decimals)}%`;
+};
+
+/**
+ * Formats a date in a readable format
+ * @param {string|Date} date - The date to format
+ * @param {string} format - Format style (default: 'medium')
+ * @returns {string} - Formatted date string
+ */
+export const formatDate = (date, format = 'medium') => {
+  if (!date) return '';
+  
+  try {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    
+    // Check if date is valid
+    if (isNaN(dateObj.getTime())) {
+      return '';
+    }
+    
+    const options = {
+      short: { month: 'numeric', day: 'numeric', year: '2-digit' },
+      medium: { month: 'short', day: 'numeric', year: 'numeric' },
+      long: { month: 'long', day: 'numeric', year: 'numeric' },
+    };
+    
+    return dateObj.toLocaleDateString('en-US', options[format] || options.medium);
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return '';
+  }
+};
+
+/**
+ * Formats a number with thousands separators
+ * @param {number|string} value - The numeric value to format
+ * @param {number} decimals - Number of decimal places (default: 0)
+ * @returns {string} - Formatted number with thousands separators
+ */
+export const formatNumber = (value, decimals = 0) => {
+  if (value === null || value === undefined || value === '') {
+    return '0';
+  }
+
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+  
+  if (isNaN(numericValue)) {
+    return '0';
+  }
+
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  }).format(numericValue);
+};
