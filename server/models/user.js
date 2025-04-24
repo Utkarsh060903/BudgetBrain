@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,24 +18,46 @@ const userSchema = new mongoose.Schema(
     },
     profileImageUrl: {
       type: String,
-      default: null,
+      default: "",
     },
+    authProvider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    }
   },
   { timestamps: true }
 );
 
-// Hash the password before saving the user
+// Before saving, hash the password
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
+  // Only hash the password if it's modified (or new)
+  if (!this.isModified("password")) return next();
+  
+  // Don't hash already hashed passwords from Google sign-ins
+  if (this.authProvider === "google") return next();
+  
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
   }
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
-// Method to compare password
+// Method to compare passwords
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  // For Google users, don't compare passwords
+  if (this.authProvider === "google") return false;
+  
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    throw error;
+  }
 };
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;
