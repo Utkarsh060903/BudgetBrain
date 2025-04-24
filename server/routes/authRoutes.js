@@ -1,7 +1,5 @@
 import express from 'express';
-import { registerUser } from '../controllers/authController.js';
-import { loginUser } from '../controllers/authController.js';
-import { getUserInfo } from '../controllers/authController.js';
+import { registerUser, loginUser, getUserInfo, googleLogin } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { upload } from '../middleware/uploadMiddleware.js';
 const router = express.Router();
@@ -9,9 +7,11 @@ const router = express.Router();
 // Route for user registration
 router.post('/register', registerUser);
 
-
 // Route for user login
 router.post('/login', loginUser);
+
+// Route for Google sign-in
+router.post('/google-login', googleLogin);
 
 // Route to get user information
 router.get('/getUser', protect, getUserInfo);
