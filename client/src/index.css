@@ -9,7 +9,7 @@
     @apply font-display;
   }
   body {
-    background-color: #fcfcfc;
+    background-color: #fff;
     overflow-x: hidden;
   }
 }
