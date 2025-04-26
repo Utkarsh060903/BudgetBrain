@@ -1,6 +1,6 @@
 import { LucideTrendingUpDown } from 'lucide-react'
 import React from 'react'
-import authImg from '../../assets/images/Auth.png'
+import authImg from '../../assets/images/Auth.webp'
 import { Link } from 'react-router-dom'
 
 const AuthLayout = ({ children }) => {
