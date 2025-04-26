@@ -106,16 +106,50 @@ export const prepareExpenseLineChartData = (data = []) => {
 // utils/formatters.js
 
 /**
- * Formats a number as currency with the specified locale and currency code
+//  * Formats a number as currency with the specified locale and currency code
+//  * @param {number|string} value - The numeric value to format
+//  * @param {string} locale - The locale to use (default: 'en-US')
+//  * @param {string} currencyCode - The currency code to use (default: 'USD')
+//  * @returns {string} - Formatted currency string
+//  */
+// export const formatCurrency = (value, locale = 'en-US', currencyCode = 'USD') => {
+//   // Handle null, undefined, or empty string
+//   if (value === null || value === undefined || value === '') {
+//     return '$0.00';
+//   }
+
+//   // Convert to number if it's a string
+//   const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+
+//   // Check if it's a valid number
+//   if (isNaN(numericValue)) {
+//     return '$0.00';
+//   }
+
+//   try {
+//     // Use Intl.NumberFormat for localized currency formatting
+//     return new Intl.NumberFormat(locale, {
+//       style: 'currency',
+//       currency: currencyCode,
+//       minimumFractionDigits: 2,
+//       maximumFractionDigits: 2
+//     }).format(numericValue);
+//   } catch (error) {
+//     console.error('Error formatting currency:', error);
+//     // Fallback formatting
+//     return `$${numericValue.toFixed(2)}`;
+//   }
+// };
+
+/**
+ * Formats a number as currency in Indian Rupees (₹)
  * @param {number|string} value - The numeric value to format
- * @param {string} locale - The locale to use (default: 'en-US')
- * @param {string} currencyCode - The currency code to use (default: 'USD')
  * @returns {string} - Formatted currency string
  */
-export const formatCurrency = (value, locale = 'en-US', currencyCode = 'USD') => {
+export const formatCurrency = (value) => {
   // Handle null, undefined, or empty string
   if (value === null || value === undefined || value === '') {
-    return '$0.00';
+    return '₹0.00';
   }
 
   // Convert to number if it's a string
@@ -123,23 +157,24 @@ export const formatCurrency = (value, locale = 'en-US', currencyCode = 'USD') =>
 
   // Check if it's a valid number
   if (isNaN(numericValue)) {
-    return '$0.00';
+    return '₹0.00';
   }
 
   try {
-    // Use Intl.NumberFormat for localized currency formatting
-    return new Intl.NumberFormat(locale, {
+    // Always use Indian Rupee formatting
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: currencyCode,
+      currency: 'INR',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     }).format(numericValue);
   } catch (error) {
     console.error('Error formatting currency:', error);
     // Fallback formatting
-    return `$${numericValue.toFixed(2)}`;
+    return `₹${numericValue.toFixed(2)}`;
   }
 };
+
 
 /**
  * Formats a percentage value
