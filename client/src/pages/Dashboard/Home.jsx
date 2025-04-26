@@ -88,7 +88,7 @@ const Home = () => {
           />
         </div> */}
 
-        <div className="grid grid-cols-1 md:grid-cols-[60%_40%] gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-[55%_45%] gap-6 mt-6">
           <RecentTransactions
             transactions={dashboardData?.recentTransactions}
             onSeeMore={() => navigate("/expense")}
@@ -112,7 +112,7 @@ const Home = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-[45%_55%] gap-6 mt-6">
           <RecentIncomeWithChart
             data={
               dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []
