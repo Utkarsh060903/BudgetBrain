@@ -1,3 +1,53 @@
+// import express from 'express';
+// import cors from 'cors';
+// import dotenv from 'dotenv';
+// import connectDb from './config/db.js';
+// import authRoutes from './routes/authRoutes.js';
+// import incomeRoutes from './routes/incomeRoutes.js';
+// import expenseRoutes from './routes/expenseRoutes.js';
+// import dashboardRoutes from './routes/dashboardRoutes.js';
+// import goalRoutes from "./routes/goalRoutes.js"
+// import historyRoutes from "./routes/historyRoutes.js"
+// import { fileURLToPath } from 'url';
+// import { dirname, join } from 'path';
+
+// // Get the equivalent of __dirname in ES modules
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+
+// const app = express();
+// dotenv.config();
+
+// // Middleware
+// app.use(cors({
+//     origin: process.env.CLIENT_URL || "*",
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+// }));
+
+// app.use(express.json());
+
+// // MongoDB connection  
+// connectDb();
+
+// // Routes
+// app.use('/api/v1/auth', authRoutes);
+// app.use('/api/v1/income', incomeRoutes);
+// app.use('/api/v1/expense', expenseRoutes);
+// app.use('/api/v1/dashboard', dashboardRoutes);
+// app.use('/api/v1/goals', goalRoutes)
+// app.use('/api/v1/history', historyRoutes)
+
+// // Fixed static file serving with proper __dirname
+// app.use('/uploads', express.static(join(__dirname, "uploads")));
+
+// const PORT = process.env.PORT || 8000;
+
+
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -10,6 +60,7 @@ import goalRoutes from "./routes/goalRoutes.js"
 import historyRoutes from "./routes/historyRoutes.js"
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import path from 'path';
 
 // Get the equivalent of __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -30,16 +81,28 @@ app.use(express.json());
 // MongoDB connection  
 connectDb();
 
-// Routes
+// API Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/income', incomeRoutes);
 app.use('/api/v1/expense', expenseRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
-app.use('/api/v1/goals', goalRoutes)
-app.use('/api/v1/history', historyRoutes)
+app.use('/api/v1/goals', goalRoutes);
+app.use('/api/v1/history', historyRoutes);
 
 // Fixed static file serving with proper __dirname
 app.use('/uploads', express.static(join(__dirname, "uploads")));
+
+// Handle client-side routing - this doesn't need NODE_ENV check
+// Catch-all route handler for any non-API routes
+app.get('*', (req, res, next) => {
+    // Skip API routes and continue to the next middleware
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+        return next();
+    }
+    
+    // For all other routes, redirect to your frontend
+    res.redirect(process.env.CLIENT_URL || 'https://your-frontend-url.vercel.app');
+});
 
 const PORT = process.env.PORT || 8000;
 
