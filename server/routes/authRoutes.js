@@ -21,7 +21,9 @@ router.post('/upload-image', upload.single("image"), (req, res) => {
     return res.status(400).json({ message: 'No file uploaded' });
   }
 
-  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+  // Use an environment variable for the base URL in production
+  const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
+  const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
   res.status(200).json({ imageUrl });
 })
 
