@@ -97,7 +97,7 @@ const Chatbot = () => {
 
 
      try {
-       const res = await axios.post('https://budgetbrain-server.onrender.com/api/chatbot', { prompt: input, 
+       const res = await axios.post('http://localhost:5000/api/chatbot', { prompt: input, 
          context: userContext  });
        if (res.data && res.data.answer) {
          const botMsg = { sender: "bot", text: res.data.answer };

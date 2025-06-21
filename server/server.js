@@ -11,7 +11,6 @@ import historyRoutes from "./routes/historyRoutes.js"
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-// Get the equivalent of __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

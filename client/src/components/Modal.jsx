@@ -36,6 +36,7 @@ const Modal = ({ children, isOpen, onClose, title }) => {
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
 
+
             <button 
               className="text-gray-500 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center cursor-pointer" 
               type="button" 
